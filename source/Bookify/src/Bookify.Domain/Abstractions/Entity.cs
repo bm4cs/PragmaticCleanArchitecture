@@ -1,15 +1,10 @@
 ﻿namespace Bookify.Domain.Abstractions;
 
-public abstract class Entity : IEquatable<Entity>
+public abstract class Entity(Guid id) : IEquatable<Entity>
 {
-    protected Entity(Guid id)
-    {
-        if (id == Guid.Empty)
-            throw new ArgumentException("Id cannot be empty.", nameof(id));
-        Id = id;
-    }
+    private readonly List<IDomainEvent> _domainEvents = [];
 
-    public Guid Id { get; init; }
+    public Guid Id { get; init; } = id;
 
     public override bool Equals(object? obj)
     {
@@ -27,6 +22,16 @@ public abstract class Entity : IEquatable<Entity>
         if (ReferenceEquals(this, other))
             return true;
         return Id == other.Id;
+    }
+
+    public IReadOnlyList<IDomainEvent> GetDomainEvents => _domainEvents.ToList();
+
+    public void ClearDomainEvents() => _domainEvents.Clear();
+
+    protected void RaiseDomainEvent(IDomainEvent domainEvent)
+    {
+        ArgumentNullException.ThrowIfNull(domainEvent);
+        _domainEvents.Add(domainEvent);
     }
 
     public override int GetHashCode() => Id.GetHashCode();

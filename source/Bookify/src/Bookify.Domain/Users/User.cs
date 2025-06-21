@@ -1,4 +1,5 @@
 ﻿using Bookify.Domain.Abstractions;
+using Bookify.Domain.Users.Events;
 
 namespace Bookify.Domain.Users;
 
@@ -20,13 +21,12 @@ public sealed class User : Entity
 
     public static User Create(FirstName firstName, LastName lastName, Email email)
     {
-        if (firstName is null)
-            throw new ArgumentNullException(nameof(firstName));
-        if (lastName is null)
-            throw new ArgumentNullException(nameof(lastName));
-        if (email is null)
-            throw new ArgumentNullException(nameof(email));
+        ArgumentNullException.ThrowIfNull(firstName);
+        ArgumentNullException.ThrowIfNull(lastName);
+        ArgumentNullException.ThrowIfNull(email);
 
-        return new User(Guid.NewGuid(), firstName, lastName, email);
+        var user = new User(Guid.NewGuid(), firstName, lastName, email);
+        user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id));
+        return user;
     }
 }

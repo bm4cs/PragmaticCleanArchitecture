@@ -1,6 +1,6 @@
-﻿namespace Bookify.Domain.Apartments;
+﻿namespace Bookify.Domain.Shared;
 
-public record Money(decimal Amount, Currency Currency)
+public sealed record Money(decimal Amount, Currency Currency)
 {
     public static Money operator +(Money left, Money right)
     {
@@ -16,4 +16,9 @@ public record Money(decimal Amount, Currency Currency)
     }
 
     public static Money Zero() => new(0, Currency.None);
+
+    public bool IsZero()
+    {
+        throw new NotImplementedException();
+    }
 }
