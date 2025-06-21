@@ -17,5 +17,7 @@ public sealed record Money(decimal Amount, Currency Currency)
 
     public static Money Zero() => new(0, Currency.None);
 
-    public bool IsZero() => this == Zero();
+    public static Money Zero(Currency currency) => new(0, currency);
+
+    public bool IsZero() => this == Zero(Currency);
 }

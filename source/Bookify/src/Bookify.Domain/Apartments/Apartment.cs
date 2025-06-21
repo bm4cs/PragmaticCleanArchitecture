@@ -21,7 +21,7 @@ public sealed class Apartment(
 
     public Description Description { get; private set; } = description;
 
-    public DateTime? LastBookedOnUtc { get; private set; }
+    public DateTime? LastBookedOnUtc { get; internal set; }
 
     public Name Name { get; private set; } = name;
 
