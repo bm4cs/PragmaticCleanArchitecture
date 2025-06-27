@@ -26,7 +26,7 @@ public sealed class User : Entity
         ArgumentNullException.ThrowIfNull(email);
 
         var user = new User(Guid.NewGuid(), firstName, lastName, email);
-        user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id));
+        user.RegisterDomainEvent(new UserCreatedDomainEvent(user.Id));
         return user;
     }
 }

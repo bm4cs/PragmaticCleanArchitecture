@@ -26,11 +26,13 @@ public sealed class Booking : Entity
         Duration = duration;
         PriceForPeriod = priceForPeriod;
         CleaningFee = cleaningFee;
-        AmentitiesUpCharge = amenitiesUpCharge;
+        AmenitiesUpCharge = amenitiesUpCharge;
         TotalPrice = totalPrice;
         Status = status;
         CreatedOnUtc = createdOnUtc;
     }
+
+    private Booking() { }
 
     public Guid ApartmentId { get; private set; }
 
@@ -42,7 +44,7 @@ public sealed class Booking : Entity
 
     public Money CleaningFee { get; private set; }
 
-    public Money AmentitiesUpCharge { get; private set; }
+    public Money AmenitiesUpCharge { get; private set; }
 
     public Money TotalPrice { get; private set; }
 
@@ -50,13 +52,13 @@ public sealed class Booking : Entity
 
     public DateTime CreatedOnUtc { get; private set; }
 
-    public DateTime ConfirmedOnUtc { get; private set; }
+    public DateTime? ConfirmedOnUtc { get; private set; }
 
-    public DateTime RejectedOnUtc { get; private set; }
+    public DateTime? RejectedOnUtc { get; private set; }
 
-    public DateTime CompletedOnUtc { get; private set; }
+    public DateTime? CompletedOnUtc { get; private set; }
 
-    public DateTime CancelledOnUtc { get; private set; }
+    public DateTime? CancelledOnUtc { get; private set; }
 
     public static Booking Reserve(
         Apartment apartment,
@@ -66,6 +68,9 @@ public sealed class Booking : Entity
         PricingService pricingService
     )
     {
+        ArgumentNullException.ThrowIfNull(apartment);
+        ArgumentNullException.ThrowIfNull(pricingService);
+
         var pricingDetails = pricingService.CalculatePrice(apartment, duration);
 
         var booking = new Booking(
@@ -75,13 +80,13 @@ public sealed class Booking : Entity
             duration,
             pricingDetails.PriceForPeriod,
             pricingDetails.CleaningFee,
-            pricingDetails.AmenitiesUpcharge,
+            pricingDetails.AmenitiesUpCharge,
             pricingDetails.TotalPrice,
             BookingStatus.Reserved,
             utcNow
         );
 
-        booking.RaiseDomainEvent(new BookingReservedDomainEvent(booking.Id));
+        booking.RegisterDomainEvent(new BookingReservedDomainEvent(booking.Id));
 
         apartment.LastBookedOnUtc = utcNow;
 
@@ -98,7 +103,7 @@ public sealed class Booking : Entity
         Status = BookingStatus.Confirmed;
         ConfirmedOnUtc = utcNow;
 
-        RaiseDomainEvent(new BookingConfirmedDomainEvent(Id));
+        RegisterDomainEvent(new BookingConfirmedDomainEvent(Id));
 
         return Result.Success();
     }
@@ -113,7 +118,7 @@ public sealed class Booking : Entity
         Status = BookingStatus.Rejected;
         RejectedOnUtc = utcNow;
 
-        RaiseDomainEvent(new BookingRejectedDomainEvent(Id));
+        RegisterDomainEvent(new BookingRejectedDomainEvent(Id));
 
         return Result.Success();
     }
@@ -128,7 +133,7 @@ public sealed class Booking : Entity
         Status = BookingStatus.Completed;
         CompletedOnUtc = utcNow;
 
-        RaiseDomainEvent(new BookingCompletedDomainEvent(Id));
+        RegisterDomainEvent(new BookingCompletedDomainEvent(Id));
 
         return Result.Success();
     }
@@ -149,7 +154,7 @@ public sealed class Booking : Entity
         Status = BookingStatus.Cancelled;
         CancelledOnUtc = utcNow;
 
-        RaiseDomainEvent(new BookingCancelledDomainEvent(Id));
+        RegisterDomainEvent(new BookingCancelledDomainEvent(Id));
 
         return Result.Success();
     }

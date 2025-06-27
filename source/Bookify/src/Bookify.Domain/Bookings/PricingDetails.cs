@@ -5,6 +5,6 @@ namespace Bookify.Domain.Bookings;
 public record PricingDetails(
     Money PriceForPeriod,
     Money CleaningFee,
-    Money AmenitiesUpcharge,
+    Money AmenitiesUpCharge,
     Money TotalPrice
 );

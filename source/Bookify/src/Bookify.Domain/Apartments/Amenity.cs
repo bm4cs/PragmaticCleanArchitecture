@@ -1,17 +1,16 @@
-﻿namespace Bookify.Domain.Apartments;
+﻿#pragma warning disable CA1008
+namespace Bookify.Domain.Apartments;
 
 public enum Amenity
 {
-    AirConditioning = 1,
-    GardenView = 2,
-    Gym = 3,
-    Heating = 4,
-    Kitchen = 5,
-    MountainView = 6,
-    Parking = 7,
-    PetFriendly = 8,
-    Spa = 9,
-    SwimmingPool = 10,
-    Washer = 11,
-    Wifi = 12,
+    WiFi = 1,
+    AirConditioning = 2,
+    Parking = 3,
+    PetFriendly = 4,
+    SwimmingPool = 5,
+    Gym = 6,
+    Spa = 7,
+    Terrace = 8,
+    MountainView = 9,
+    GardenView = 10
 }

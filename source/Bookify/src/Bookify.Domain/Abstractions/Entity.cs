@@ -1,42 +1,32 @@
 ﻿namespace Bookify.Domain.Abstractions;
 
-public abstract class Entity(Guid id) : IEquatable<Entity>
+public abstract class Entity
 {
-    private readonly List<IDomainEvent> _domainEvents = [];
+    private readonly List<IDomainEvent> _domainEvents = new();
 
-    public Guid Id { get; init; } = id;
-
-    public override bool Equals(object? obj)
+    protected Entity(Guid id)
     {
-        if (ReferenceEquals(this, obj))
-            return true;
-        if (obj is null || obj.GetType() != GetType())
-            return false;
-        return Equals((Entity)obj);
+        Id = id;
     }
 
-    public bool Equals(Entity? other)
+    protected Entity()
     {
-        if (other is null)
-            return false;
-        if (ReferenceEquals(this, other))
-            return true;
-        return Id == other.Id;
     }
 
-    public IReadOnlyList<IDomainEvent> GetDomainEvents => _domainEvents.ToList();
+    public Guid Id { get; init; }
 
-    public void ClearDomainEvents() => _domainEvents.Clear();
-
-    protected void RaiseDomainEvent(IDomainEvent domainEvent)
+    public IReadOnlyList<IDomainEvent> GetDomainEvents()
     {
-        ArgumentNullException.ThrowIfNull(domainEvent);
+        return _domainEvents.ToList();
+    }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
+    }
+
+    protected void RegisterDomainEvent(IDomainEvent domainEvent)
+    {
         _domainEvents.Add(domainEvent);
     }
-
-    public override int GetHashCode() => Id.GetHashCode();
-
-    public static bool operator ==(Entity? left, Entity? right) => Equals(left, right);
-
-    public static bool operator !=(Entity? left, Entity? right) => !Equals(left, right);
 }

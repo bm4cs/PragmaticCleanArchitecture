@@ -1,8 +1,9 @@
-﻿namespace Bookify.Domain.Abstractions;
+﻿#pragma warning disable CA1716
+namespace Bookify.Domain.Abstractions;
 
 public record Error(string Code, string Name)
 {
-    public static Error None = new Error(string.Empty, string.Empty);
+    public static readonly Error None = new(string.Empty, string.Empty);
 
-    public static Error NullValue = new("Error.NullValue", "Null value encountered");
+    public static readonly Error NullValue = new("Error.NullValue", "Null value was provided");
 }

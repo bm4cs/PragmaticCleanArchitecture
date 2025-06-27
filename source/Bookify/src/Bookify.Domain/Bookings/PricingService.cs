@@ -3,7 +3,7 @@ using Bookify.Domain.Shared;
 
 namespace Bookify.Domain.Bookings;
 
-public sealed class PricingService
+public class PricingService
 {
     public PricingDetails CalculatePrice(Apartment apartment, DateRange period)
     {
