@@ -9,7 +9,8 @@ public interface IBookingRepository
     Task<bool> IsOverlappingAsync(
         Apartment apartment,
         DateRange duration,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default
+    );
 
     void Add(Booking booking);
 }

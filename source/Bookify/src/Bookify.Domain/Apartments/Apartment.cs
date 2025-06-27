@@ -12,7 +12,8 @@ public sealed class Apartment : Entity
         Address address,
         Money price,
         Money cleaningFee,
-        List<Amenity> amenities)
+        List<Amenity> amenities
+    )
         : base(id)
     {
         Name = name;
@@ -23,9 +24,7 @@ public sealed class Apartment : Entity
         Amenities = amenities;
     }
 
-    private Apartment()
-    {
-    }
+    private Apartment() { }
 
     public Name Name { get; private set; }
 
