@@ -24,9 +24,15 @@ internal sealed class BookingReservedDomainEventHandler
         _emailService = emailService;
     }
 
-    public async Task Handle(BookingReservedDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(
+        BookingReservedDomainEvent notification,
+        CancellationToken cancellationToken
+    )
     {
-        var booking = await _bookingRepository.GetByIdAsync(notification.BookingId, cancellationToken);
+        var booking = await _bookingRepository.GetByIdAsync(
+            notification.BookingId,
+            cancellationToken
+        );
 
         if (booking is null)
         {
