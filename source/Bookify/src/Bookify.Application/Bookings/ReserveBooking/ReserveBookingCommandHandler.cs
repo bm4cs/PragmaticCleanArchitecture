@@ -38,16 +38,18 @@ internal sealed class ReserveBookingCommandHandler : ICommandHandler<ReserveBook
         CancellationToken cancellationToken
     )
     {
-        var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
+        var user = await _userRepository
+            .GetByIdAsync(request.UserId, cancellationToken)
+            .ConfigureAwait(false);
         if (user is null)
         {
             return Result.Failure<Guid>(UserErrors.NotFound);
         }
 
-        var apartment = await _apartmentRepository.GetByIdAsync(
-            request.ApartmentId,
-            cancellationToken
-        );
+        var apartment = await _apartmentRepository
+            .GetByIdAsync(request.ApartmentId, cancellationToken)
+            .ConfigureAwait(false);
+
         if (apartment is null)
         {
             return Result.Failure<Guid>(ApartmentErrors.NotFound);
@@ -55,7 +57,11 @@ internal sealed class ReserveBookingCommandHandler : ICommandHandler<ReserveBook
 
         var duration = DateRange.Create(request.StartDate, request.EndDate);
 
-        if (await _bookingRepository.IsOverlappingAsync(apartment, duration, cancellationToken))
+        if (
+            await _bookingRepository
+                .IsOverlappingAsync(apartment, duration, cancellationToken)
+                .ConfigureAwait(false)
+        )
         {
             return Result.Failure<Guid>(BookingErrors.Overlap);
         }
@@ -70,7 +76,7 @@ internal sealed class ReserveBookingCommandHandler : ICommandHandler<ReserveBook
 
         _bookingRepository.Add(booking);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         return booking.Id;
     }
