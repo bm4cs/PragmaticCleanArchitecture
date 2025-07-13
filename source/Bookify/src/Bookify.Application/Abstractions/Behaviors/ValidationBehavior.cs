@@ -1,11 +1,11 @@
 ﻿using Bookify.Application.Abstractions.Messaging;
+using Bookify.Application.Exceptions;
 using FluentValidation;
 using MediatR;
 
 namespace Bookify.Application.Abstractions.Behaviors;
 
-public class ValidationBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse>
+public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand // only commands are validated, not queries
     where TResponse : notnull // ensure that the response type is not null, a requirement in MediatR handlers
 {
@@ -29,11 +29,21 @@ public class ValidationBehavior<TRequest, TResponse>
 
         var validationContext = new ValidationContext<TRequest>(request);
 
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
+        var validationErrors = _validators
+            .Select(v => v.Validate(validationContext))
+            .Where(r => !r.IsValid)
+            .SelectMany(r => r.Errors)
+            .Select(validationError => new ValidationError(
+                validationError.PropertyName,
+                validationError.ErrorMessage
+            ))
+            .ToList();
+
+        if (validationErrors.Count != 0)
         {
-            throw new ValidationException(validationResult.Errors);
+            throw new Exceptions.ValidationException(validationErrors);
         }
-        return await next();
+
+        return await next(cancellationToken).ConfigureAwait(false);
     }
 }
