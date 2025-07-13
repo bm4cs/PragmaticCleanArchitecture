@@ -6,7 +6,7 @@ using MediatR;
 namespace Bookify.Application.Abstractions.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IBaseCommand // only commands are validated, not queries
+    where TRequest : IBaseCommand // pipeline only applicable to command types, not queries
     where TResponse : notnull // ensure that the response type is not null, a requirement in MediatR handlers
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators; // all relevant validators that apply to the request type
