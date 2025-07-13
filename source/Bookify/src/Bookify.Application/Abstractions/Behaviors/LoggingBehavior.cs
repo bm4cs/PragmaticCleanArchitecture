@@ -4,7 +4,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookify.Application.Abstractions.Behaviors;
 
-public class LoggingBehavior<TRequest, TResponse>(ILogger<TRequest> logger) : IPipelineBehavior<TRequest, TResponse>
+public class LoggingBehavior<TRequest, TResponse>(ILogger<TRequest> logger)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand
 {
     public async Task<TResponse> Handle(
