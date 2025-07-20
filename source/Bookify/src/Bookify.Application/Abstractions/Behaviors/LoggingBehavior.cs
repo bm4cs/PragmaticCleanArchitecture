@@ -6,7 +6,7 @@ namespace Bookify.Application.Abstractions.Behaviors;
 
 public class LoggingBehavior<TRequest, TResponse>(ILogger<TRequest> logger)
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IBaseCommand // restrict to command types only, not queries
+    where TRequest : IBaseCommand // restrict to commands only, not queries
 {
     public async Task<TResponse> Handle(
         TRequest request,
