@@ -46,6 +46,10 @@ internal sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, Bo
             .QueryFirstOrDefaultAsync<BookingResponse>(sql, new { request.BookingId })
             .ConfigureAwait(false);
 
+        if (booking is null || booking.UserId != _userContext.UserId)
+        {
+            return Result.Failure<BookingResponse>(BookingErrors.NotFound);
+        }
         return booking;
     }
 }
