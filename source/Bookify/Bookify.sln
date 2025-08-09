@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Application", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Infrastructure", "src\Bookify.Infrastructure\Bookify.Infrastructure.csproj", "{1EB2F403-C08C-4AE9-96D3-E4E4F61730CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Api", "src\Bookify.Api\Bookify.Api.csproj", "{191AD0DB-9EA2-418E-BF1F-52E2472570F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,18 @@ Global
 		{1EB2F403-C08C-4AE9-96D3-E4E4F61730CA}.Release|x64.Build.0 = Release|Any CPU
 		{1EB2F403-C08C-4AE9-96D3-E4E4F61730CA}.Release|x86.ActiveCfg = Release|Any CPU
 		{1EB2F403-C08C-4AE9-96D3-E4E4F61730CA}.Release|x86.Build.0 = Release|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Debug|x64.Build.0 = Debug|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Debug|x86.Build.0 = Debug|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Release|x64.ActiveCfg = Release|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Release|x64.Build.0 = Release|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Release|x86.ActiveCfg = Release|Any CPU
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +81,7 @@ Global
 		{BDBAC0A0-715E-48D2-9130-B24E1ED11C67} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{C6BD9A94-B84C-ADB6-B02C-4C6D0DE1ECE6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{1EB2F403-C08C-4AE9-96D3-E4E4F61730CA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{191AD0DB-9EA2-418E-BF1F-52E2472570F7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C5AA3FB-263B-4107-822A-23BD314D3AA0}

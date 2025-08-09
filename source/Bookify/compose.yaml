@@ -1,0 +1,10 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  bookifyapi:
+    image: bookifyapi
+    build:
+      context: .
+      dockerfile: source/Bookify/src/Bookify.Api/Dockerfile
+    ports:
+      - 1337:1337
