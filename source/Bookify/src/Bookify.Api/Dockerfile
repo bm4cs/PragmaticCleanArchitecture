@@ -7,12 +7,14 @@ ENV ASPNETCORE_URLS=http://+:1337
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG configuration=Release
-WORKDIR /
+WORKDIR /src
 COPY ["src/Bookify.Api/Bookify.Api.csproj", "src/Bookify.Api/"]
+COPY ["src/Bookify.Application/Bookify.Application.csproj", "src/Bookify.Application/"]
+COPY ["src/Bookify.Infrastructure/Bookify.Infrastructure.csproj", "src/Bookify.Infrastructure/"]
+COPY ["src/Bookify.Domain/Bookify.Domain.csproj", "src/Bookify.Domain/"]
 RUN dotnet restore "src/Bookify.Api/Bookify.Api.csproj"
 COPY . .
-WORKDIR /src/Bookify.Api
-# RUN ls -l /src/Bookify.Api
+WORKDIR /src/src/Bookify.Api
 RUN dotnet build "Bookify.Api.csproj" -c $configuration -o /app/build
 
 FROM build AS publish

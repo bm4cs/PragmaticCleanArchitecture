@@ -71,7 +71,7 @@ Task("Docker-Build")
     {
         StartProcess("docker", new ProcessSettings
         {
-            Arguments = "build -t bookify-api:latest ."
+            Arguments = "build -t bookify-api:latest -f src/Bookify.Api/Dockerfile ."
         });
         Information("Docker image built: bookify-api:latest");
     });
