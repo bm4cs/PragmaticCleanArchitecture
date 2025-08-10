@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   bookify-api:
     image: ${DOCKER_REGISTRY-}bookifyapi
@@ -9,6 +7,8 @@ services:
       dockerfile: src/Bookify.Api/Dockerfile
     depends_on:
       - bookify-db
+
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
 
   bookify-db:
     image: postgres:latest
@@ -22,40 +22,31 @@ services:
     ports:
       - 5432:5432
 
-  bookify-idp:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: Bookify.Identity
-    command: start-dev --import-realm
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-    volumes:
-      - ./.containers/identity:/opt/keycloak/data
-      - ./.files/bookify-realm-export.json:/opt/keycloak/data/import/realm.json
-    ports:
-      - 18080:8080
-
-  bookify-seq:
-    image: datalust/seq:latest
-    container_name: Bookify.Seq
-    environment:
-      - ACCEPT_EULA=Y
-    ports:
-      - 5341:5341
-      - 8081:80
-
-  bookify-redis:
-    image: redis:latest
-    container_name: Bookify.Redis
-    restart: always
-    ports:
-      - '6379:6379'
-
-  # # Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
-  # bookifyapi:
-  #   image: bookifyapi
-  #   build:
-  #     context: .
-  #     dockerfile: source/Bookify/src/Bookify.Api/Dockerfile
+  # bookify-idp:
+  #   image: quay.io/keycloak/keycloak:latest
+  #   container_name: Bookify.Identity
+  #   command: start-dev --import-realm
+  #   environment:
+  #     - KEYCLOAK_ADMIN=admin
+  #     - KEYCLOAK_ADMIN_PASSWORD=admin
+  #   volumes:
+  #     - ./.containers/identity:/opt/keycloak/data
+  #     - ./.files/bookify-realm-export.json:/opt/keycloak/data/import/realm.json
   #   ports:
-  #     - 1337:1337
+  #     - 18080:8080
+
+  # bookify-seq:
+  #   image: datalust/seq:latest
+  #   container_name: Bookify.Seq
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #   ports:
+  #     - 5341:5341
+  #     - 8081:80
+
+  # bookify-redis:
+  #   image: redis:latest
+  #   container_name: Bookify.Redis
+  #   restart: always
+  #   ports:
+  #     - '6379:6379'

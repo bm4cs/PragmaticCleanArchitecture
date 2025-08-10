@@ -71,9 +71,9 @@ Task("Docker-Build")
     {
         StartProcess("docker", new ProcessSettings
         {
-            Arguments = "build -t bookify-api:latest -f src/Bookify.Api/Dockerfile ."
+            Arguments = "build -t bookifyapi:latest -f src/Bookify.Api/Dockerfile ."
         });
-        Information("Docker image built: bookify-api:latest");
+        Information("Docker image built: bookifyapi:latest");
     });
 
 Task("Infrastructure-Up")
@@ -111,6 +111,36 @@ Task("Infrastructure-Down")
             Warning("No compose.yaml found - skipping infrastructure shutdown");
         }
     });
+
+Task("Dev-Certs-Generate")
+    .Description("Generates HTTPS development certificate")
+    .Does(() =>
+    {
+        var userProfile = EnvironmentVariable("USERPROFILE") ?? EnvironmentVariable("HOME");
+        var certPath = $"{userProfile}/.aspnet/https/aspnetapp.pfx";
+        
+        StartProcess("dotnet", new ProcessSettings
+        {
+            Arguments = $"dev-certs https -ep \"{certPath}\" -p changeme"
+        });
+        Information($"Generated dev certificate at: {certPath}");
+    });
+
+Task("Dev-Certs-Trust")
+    .Description("Trusts HTTPS development certificates")
+    .Does(() =>
+    {
+        StartProcess("dotnet", new ProcessSettings
+        {
+            Arguments = "dev-certs https --trust"
+        });
+        Information("Trusted HTTPS development certificates");
+    });
+
+Task("Dev-Certs-Setup")
+    .Description("Sets up HTTPS development certificates (generate + trust)")
+    .IsDependentOn("Dev-Certs-Generate")
+    .IsDependentOn("Dev-Certs-Trust");
 
 Task("Publish")
     .Description("Publishes the API project")
