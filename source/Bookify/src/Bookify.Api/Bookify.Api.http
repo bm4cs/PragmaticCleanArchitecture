@@ -1,8 +1,9 @@
 
+@host = http://localhost:5244
 
-@Bookify.Api_HostAddress = http://localhost:5244
+###
 
-GET {{Bookify.Api_HostAddress}}/weatherforecast/
+GET {{host}}/weatherforecast/
 Accept: application/json
 
 ###

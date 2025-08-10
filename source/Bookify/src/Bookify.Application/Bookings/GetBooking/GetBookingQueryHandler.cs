@@ -8,6 +8,7 @@ namespace Bookify.Application.Bookings.GetBooking;
 internal sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, BookingResponse>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
+    // private readonly IUserContext _userContext;
 
     public GetBookingQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
     {
@@ -46,10 +47,10 @@ internal sealed class GetBookingQueryHandler : IQueryHandler<GetBookingQuery, Bo
             .QueryFirstOrDefaultAsync<BookingResponse>(sql, new { request.BookingId })
             .ConfigureAwait(false);
 
-        if (booking is null || booking.UserId != _userContext.UserId)
-        {
-            return Result.Failure<BookingResponse>(BookingErrors.NotFound);
-        }
+        // if (booking is null || booking.UserId != _userContext.UserId)
+        // {
+        //     return Result.Failure<BookingResponse>(BookingErrors.NotFound);
+        // }
         return booking;
     }
 }
