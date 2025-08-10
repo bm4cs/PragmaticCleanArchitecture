@@ -1,4 +1,4 @@
-# Bookify Exemplar Clean Architecture Blueprint
+# Exemplar Clean Architecture Blueprint
 
 ## Building 🛠️
 
@@ -24,3 +24,25 @@ Sets up self-signed development certificates as per the [docs](https://learn.mic
 ```
 
 This will create `%userprofile%\.aspnet\https\aspnetapp.pfx` and register it as trusted in the Windows Certificate Hive.
+
+## Running 🚀
+
+### VSCode Debug
+
+C# Dev Kit will auto-generate debug/run configurations for the Bookify.Api project. Set that up and hit F5.
+
+### Cake Target
+
+```powershell
+.\build.ps1 Run-Api
+```
+
+### Docker Containers
+
+```sh
+docker compose up
+```
+
+## OpenAPI 🎯
+
+Interact with [Scalar](https://github.com/scalar/scalar) at <http://localhost:5000/scalar/v1>

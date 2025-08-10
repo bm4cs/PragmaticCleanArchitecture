@@ -142,6 +142,16 @@ Task("Dev-Certs-Setup")
     .IsDependentOn("Dev-Certs-Generate")
     .IsDependentOn("Dev-Certs-Trust");
 
+Task("Run-Api")
+    .Description("Runs the API project")
+    .Does(() =>
+    {
+        DotNetRun(apiProject, new DotNetRunSettings
+        {
+            Configuration = "Development"
+        });
+    });
+
 Task("Publish")
     .Description("Publishes the API project")
     .IsDependentOn("Build")

@@ -1,5 +1,6 @@
 using Bookify.Application;
 using Bookify.Infrastructure;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi(); // http://localhost:5244/openapi/v1.json
+    app.MapOpenApi(); // http://localhost:5000/openapi/v1.json
+    app.MapScalarApiReference(); // http://localhost:5000/scalar/v1
 }
 
 Console.WriteLine("Bookify API is starting...");
