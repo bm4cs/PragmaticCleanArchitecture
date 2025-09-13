@@ -13,6 +13,9 @@ dotnet cake --target=Build
 
 # cake wrapper with named args
 .\build.ps1 -Target Build -Configuration Release
+
+# troubleshooting
+.\build.ps1 -Verbosity diagnostic
 ```
 
 ### Dev-Certs-Setup
@@ -27,18 +30,25 @@ This will create `%userprofile%\.aspnet\https\aspnetapp.pfx` and register it as 
 
 ## Running 🚀
 
-### Cake Target
+Cake targets have been setup for more manual chores.
+
+### API
 
 ```powershell
 .\build.ps1 Run-Api
 ```
 
-### Docker Containers
+Interact with [Scalar](https://github.com/scalar/scalar) at <http://localhost:5000/scalar/v1>
+
+### Docker Infrastructure
 
 ```sh
-docker compose up
+.\build.ps1 Infra-Up
 ```
 
-## OpenAPI 🎯
+### EF Core Migrations
 
-Interact with [Scalar](https://github.com/scalar/scalar) at <http://localhost:5000/scalar/v1>
+```sh
+.\build.ps1 Add-Migration --name=InitialMigration
+.\build.ps1 Migrate
+```

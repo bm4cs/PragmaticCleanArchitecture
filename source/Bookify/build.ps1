@@ -9,12 +9,14 @@ This script will restore tools and run the Cake build script.
 The target to run (default: "Default")
 .PARAMETER Configuration
 The configuration to use (default: "Release")
+.PARAMETER Verbosity
+The verbosity level (default: "normal")
 #>
 
 [CmdletBinding()]
 Param(
-    [string]$Target = "Default",
-    [string]$Configuration = "Release"
+    [Parameter(ValueFromRemainingArguments=$true)]
+    [string[]]$Arguments
 )
 
 Write-Host "Preparing to run build script..." -ForegroundColor Green
@@ -38,9 +40,15 @@ if ($LASTEXITCODE -ne 0) {
     throw "Failed to restore .NET tools"
 }
 
-# Run Cake
+# Run Cake with all arguments passed through
 Write-Host "Running Cake build script..." -ForegroundColor Yellow
-dotnet cake build.cake --target="$Target" --configuration="$Configuration"
+if ($Arguments) {
+    Write-Host "Command: dotnet cake build.cake $($Arguments -join ' ')" -ForegroundColor Gray
+    & dotnet cake build.cake @Arguments
+} else {
+    Write-Host "Command: dotnet cake" -ForegroundColor Gray
+    & dotnet cake
+}
 if ($LASTEXITCODE -ne 0) {
     throw "Cake build failed"
 }

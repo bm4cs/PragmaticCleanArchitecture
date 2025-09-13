@@ -154,7 +154,7 @@ Task("Add-Migration")
         
         DotNetTool($"ef migrations add {migrationName}", new DotNetToolSettings
         {
-            WorkingDirectory = "./src/Bookify.Api"
+            WorkingDirectory = "./src/Bookify.Infrastructure"
         });
         Information($"Created migration: {migrationName}");
     });
