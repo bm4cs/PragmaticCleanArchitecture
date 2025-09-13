@@ -15,6 +15,7 @@ public class ApplicationDesignTimeDbContextFactory
         var connectionString =
             "Host=localhost;Port=5432;Database=bookify;Username=postgres;Password=postgres";
         optionsBuilder.UseNpgsql(connectionString);
+        optionsBuilder.UseSnakeCaseNamingConvention();
 
         // Create a dummy publisher for design-time
         var dummyPublisher = new DummyPublisher();

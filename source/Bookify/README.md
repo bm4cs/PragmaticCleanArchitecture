@@ -9,13 +9,13 @@
 dotnet cake --target=Build
 
 # cake wrapper
-.\build.ps1 Build
+.\build.ps1 --target=Build
 
 # cake wrapper with named args
-.\build.ps1 -Target Build -Configuration Release
+.\build.ps1 --target=Build --configuration=Release
 
 # troubleshooting
-.\build.ps1 -Verbosity diagnostic
+.\build.ps1 --target=Run-Api --verbosity=diagnostic
 ```
 
 ### Dev-Certs-Setup
@@ -23,7 +23,7 @@ dotnet cake --target=Build
 Sets up self-signed development certificates as per the [docs](https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https).
 
 ```powershell
-.\build.ps1 Dev-Certs-Setup
+.\build.ps1 --target=Dev-Certs-Setup
 ```
 
 This will create `%userprofile%\.aspnet\https\aspnetapp.pfx` and register it as trusted in the Windows Certificate Hive.
@@ -35,7 +35,7 @@ Cake targets have been setup for more manual chores.
 ### API
 
 ```powershell
-.\build.ps1 Run-Api
+.\build.ps1 --target=Run-Api
 ```
 
 Interact with [Scalar](https://github.com/scalar/scalar) at <http://localhost:5000/scalar/v1>
@@ -43,12 +43,12 @@ Interact with [Scalar](https://github.com/scalar/scalar) at <http://localhost:50
 ### Docker Infrastructure
 
 ```sh
-.\build.ps1 Infra-Up
+.\build.ps1 --target=Infra-Up
 ```
 
 ### EF Core Migrations
 
 ```sh
-.\build.ps1 Add-Migration --name=InitialMigration
-.\build.ps1 Migrate
+.\build.ps1 --target=Add-Migration --name=InitialSetup --verbosity=diagnostic
+.\build.ps1 --target=Migrate --verbosity=diagnostic
 ```

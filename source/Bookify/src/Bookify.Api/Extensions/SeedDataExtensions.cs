@@ -10,16 +10,17 @@ internal static class SeedDataExtensions
 {
     public static void SeedData(this IApplicationBuilder app)
     {
-        using IServiceScope scope = app.ApplicationServices.CreateScope();
+        using var scope = app.ApplicationServices.CreateScope();
 
-        ISqlConnectionFactory sqlConnectionFactory =
+        var sqlConnectionFactory =
             scope.ServiceProvider.GetRequiredService<ISqlConnectionFactory>();
-        using IDbConnection connection = sqlConnectionFactory.CreateConnection();
+
+        using var connection = sqlConnectionFactory.CreateConnection();
 
         var faker = new Faker();
 
-        List<object> apartments = new();
-        for (int i = 0; i < 100; i++)
+        List<object> apartments = [];
+        for (var i = 0; i < 100; i++)
         {
             apartments.Add(
                 new

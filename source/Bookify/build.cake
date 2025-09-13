@@ -165,7 +165,7 @@ Task("Migrate")
     {
         DotNetTool("ef database update", new DotNetToolSettings
         {
-            WorkingDirectory = "./src/Bookify.Api"
+            WorkingDirectory = "./src/Bookify.Infrastructure"
         });
         Information("Database migrations applied");
     });
