@@ -76,11 +76,11 @@ Task("Docker-Build")
         Information("Docker image built: bookifyapi:latest");
     });
 
-Task("Infrastructure-Up")
+Task("Infra-Up")
     .Description("Starts containerized infrastructure (databases, etc.)")
     .Does(() =>
     {
-        if (FileExists("compose.yaml"))
+        if (FileExists("docker-compose.yml"))
         {
             StartProcess("docker", new ProcessSettings
             {
@@ -90,15 +90,15 @@ Task("Infrastructure-Up")
         }
         else
         {
-            Warning("No compose.yaml found - skipping infrastructure startup");
+            Warning("No docker-compose.yml found - skipping infrastructure startup");
         }
     });
 
-Task("Infrastructure-Down")
+Task("Infra-Down")
     .Description("Stops containerized infrastructure")
     .Does(() =>
     {
-        if (FileExists("compose.yaml"))
+        if (FileExists("docker-compose.yml"))
         {
             StartProcess("docker", new ProcessSettings
             {
@@ -108,7 +108,7 @@ Task("Infrastructure-Down")
         }
         else
         {
-            Warning("No compose.yaml found - skipping infrastructure shutdown");
+            Warning("No docker-compose.yml found - skipping infrastructure shutdown");
         }
     });
 
@@ -142,6 +142,34 @@ Task("Dev-Certs-Setup")
     .IsDependentOn("Dev-Certs-Generate")
     .IsDependentOn("Dev-Certs-Trust");
 
+Task("Add-Migration")
+    .Description("Creates a new Entity Framework migration")
+    .Does(() =>
+    {
+        var migrationName = Argument("name", "");
+        if (string.IsNullOrEmpty(migrationName))
+        {
+            throw new Exception("Migration name is required. Use: --name=MigrationName");
+        }
+        
+        DotNetTool($"ef migrations add {migrationName}", new DotNetToolSettings
+        {
+            WorkingDirectory = "./src/Bookify.Api"
+        });
+        Information($"Created migration: {migrationName}");
+    });
+
+Task("Migrate")
+    .Description("Runs Entity Framework database migrations")
+    .Does(() =>
+    {
+        DotNetTool("ef database update", new DotNetToolSettings
+        {
+            WorkingDirectory = "./src/Bookify.Api"
+        });
+        Information("Database migrations applied");
+    });
+
 Task("Run-Api")
     .Description("Runs the API project")
     .Does(() =>
@@ -174,7 +202,7 @@ Task("Full-Build")
 
 Task("Deploy-Local")
     .Description("Full local deployment with infrastructure")
-    .IsDependentOn("Infrastructure-Up")
+    .IsDependentOn("Infra-Up")
     .IsDependentOn("Docker-Build")
     .Does(() =>
     {
@@ -198,8 +226,10 @@ Task("Help")
         Information("  Test            - Runs all tests");
         Information("  Full-Build      - Build + Test");
         Information("  Docker-Build    - Builds API Docker image");
-        Information("  Infrastructure-Up   - Starts infrastructure containers");
-        Information("  Infrastructure-Down - Stops infrastructure containers");
+        Information("  Infra-Up        - Starts infrastructure containers");
+        Information("  Infra-Down      - Stops infrastructure containers");
+        Information("  Add-Migration   - Creates new EF migration (--name=MigrationName)");
+        Information("  Migrate         - Runs EF database migrations");
         Information("  Publish         - Publishes API project");
         Information("  Deploy-Local    - Full local deployment");
         Information("  Help            - Shows this help");

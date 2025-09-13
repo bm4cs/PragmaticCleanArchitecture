@@ -1,0 +1,33 @@
+hacker_name,description
+John Carmack,Co-founder of id Software and lead programmer of Doom and Quake. Pioneer of 3D graphics programming and real-time rendering techniques.
+Linus Torvalds,Creator of Linux kernel and Git version control system. Finnish software engineer who revolutionized open-source operating systems.
+Dennis Ritchie,Creator of the C programming language and co-developer of Unix operating system. His work forms the foundation of modern computing.
+Ken Thompson,Co-creator of Unix operating system and B programming language. Designed the first regular expression implementation and UTF-8 encoding.
+Tim Berners-Lee,Inventor of the World Wide Web. Created HTML HTTP and URLs while working at CERN in 1989-1991.
+Guido van Rossum,Creator of Python programming language. Known as Python's Benevolent Dictator for Life until stepping down in 2018.
+Brendan Eich,Creator of JavaScript programming language. Co-founded Mozilla and served as CTO. Created JS in just 10 days at Netscape.
+Larry Wall,Creator of Perl programming language and patch utility. Known for his linguistic background influencing programming language design.
+Bjarne Stroustrup,Creator of C++ programming language. Extended C with object-oriented programming features while maintaining efficiency.
+James Gosling,Creator of Java programming language at Sun Microsystems. Known as Dr. Java for revolutionizing enterprise software development.
+Anders Hejlsberg,Chief architect of C# and TypeScript at Microsoft. Previously created Turbo Pascal and was architect of Delphi.
+Rich Hickey,Creator of Clojure programming language. Former C++ and Java developer who designed Clojure as a functional Lisp dialect for JVM.
+Ryan Dahl,Creator of Node.js runtime environment. Enabled JavaScript to run server-side revolutionizing web development architecture.
+Graydon Hoare,Creator of Rust programming language at Mozilla Research. Designed Rust to provide memory safety without garbage collection.
+Rob Pike,Co-creator of Go programming language at Google. Previously worked on Unix Plan 9 and Inferno operating systems.
+Brad Fitzpatrick,Creator of LiveJournal memcached and co-creator of Go. Prolific open-source contributor and distributed systems expert.
+Yukihiro Matsumoto,Creator of Ruby programming language. Known as Matz designed Ruby to make programmers happy with elegant syntax.
+Alan Kay,Pioneer of object-oriented programming and graphical user interfaces. Coined the term object-oriented programming at Xerox PARC.
+Donald Knuth,Author of The Art of Computer Programming multi-volume series. Creator of TeX typesetting system and analysis of algorithms.
+Edsger Dijkstra,Dutch computer scientist known for shortest path algorithm and structured programming advocacy. Turing Award winner in 1972.
+Grace Hopper,Pioneer of computer programming and creator of first compiler. Coined the term computer bug and developed COBOL language.
+Ada Lovelace,World's first computer programmer. Wrote the first algorithm intended for machine processing on Babbage's Analytical Engine.
+Margaret Hamilton,Lead software engineer for Apollo space missions. Coined the term software engineering while developing guidance systems.
+Barbara Liskov,Creator of Liskov Substitution Principle in object-oriented programming. First woman to receive Turing Award for programming contributions.
+Frances Allen,Pioneer in compiler optimization and parallel computing. First woman to receive Turing Award for compiler research.
+Shafi Goldwasser,Cryptography pioneer and complexity theory researcher. Co-inventor of zero-knowledge proofs and probabilistic encryption.
+Radia Perlman,Network engineer known as Mother of the Internet. Inventor of Spanning Tree Protocol for network bridge loops.
+Katherine Johnson,NASA mathematician whose calculations enabled first US spaceflights. Hidden figure whose work was critical for orbital mechanics.
+Sophie Wilson,Designer of ARM processor architecture. Her energy-efficient design powers billions of mobile devices worldwide.
+Carol Shaw,First female video game developer. Created 3D Tic-Tac-Toe and River Raid games during early Atari era.
+Roberta Williams,Pioneer of graphic adventure games. Co-founded Sierra On-Line and created King's Quest series with husband Ken.
+Corrinne Yu,Graphics programming expert who worked on Halo and Borderlands games. Known for 3D engine optimization and real-time rendering.

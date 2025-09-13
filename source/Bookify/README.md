@@ -27,10 +27,6 @@ This will create `%userprofile%\.aspnet\https\aspnetapp.pfx` and register it as 
 
 ## Running 🚀
 
-### VSCode Debug
-
-C# Dev Kit will auto-generate debug/run configurations for the Bookify.Api project. Set that up and hit F5.
-
 ### Cake Target
 
 ```powershell
