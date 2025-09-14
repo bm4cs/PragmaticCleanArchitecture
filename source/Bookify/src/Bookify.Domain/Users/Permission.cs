@@ -1,5 +1,4 @@
-﻿#pragma warning disable CA1711
-namespace Bookify.Domain.Users;
+﻿namespace Bookify.Domain.Users;
 
 public sealed class Permission
 {

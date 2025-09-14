@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Bookify.Application.Bookings.GetBooking;
 using Bookify.Application.Bookings.ReserveBooking;
 using Bookify.Domain.Abstractions;
@@ -8,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bookify.Api.Controllers.Bookings;
 
 [ApiController]
-[Route("api/bookings")]
+[ApiVersion(ApiVersions.V1)]
+[Route("api/v{version:apiVersion}/bookings")]
 public class BookingsController : ControllerBase
 {
     private readonly ISender _sender;
@@ -18,7 +20,7 @@ public class BookingsController : ControllerBase
         _sender = sender;
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetBooking(
         Guid id,
         CancellationToken cancellationToken = default
