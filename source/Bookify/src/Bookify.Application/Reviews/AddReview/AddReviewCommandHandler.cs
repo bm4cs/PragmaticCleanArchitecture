@@ -17,7 +17,8 @@ internal sealed class AddReviewCommandHandler : ICommandHandler<AddReviewCommand
         IBookingRepository bookingRepository,
         IReviewRepository reviewRepository,
         IUnitOfWork unitOfWork,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider
+    )
     {
         _bookingRepository = bookingRepository;
         _reviewRepository = reviewRepository;
@@ -27,7 +28,10 @@ internal sealed class AddReviewCommandHandler : ICommandHandler<AddReviewCommand
 
     public async Task<Result> Handle(AddReviewCommand request, CancellationToken cancellationToken)
     {
-        Booking? booking = await _bookingRepository.GetByIdAsync(request.BookingId, cancellationToken);
+        Booking? booking = await _bookingRepository.GetByIdAsync(
+            request.BookingId,
+            cancellationToken
+        );
 
         if (booking is null)
         {
@@ -45,7 +49,8 @@ internal sealed class AddReviewCommandHandler : ICommandHandler<AddReviewCommand
             booking,
             ratingResult.Value,
             new Comment(request.Comment),
-            _dateTimeProvider.UtcNow);
+            _dateTimeProvider.UtcNow
+        );
 
         if (reviewResult.IsFailure)
         {

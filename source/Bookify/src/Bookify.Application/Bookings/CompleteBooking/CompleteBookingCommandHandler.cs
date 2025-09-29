@@ -14,16 +14,23 @@ internal sealed class CompleteBookingCommandHandler : ICommandHandler<CompleteBo
     public CompleteBookingCommandHandler(
         IDateTimeProvider dateTimeProvider,
         IBookingRepository bookingRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork
+    )
     {
         _dateTimeProvider = dateTimeProvider;
         _bookingRepository = bookingRepository;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result> Handle(CompleteBookingCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(
+        CompleteBookingCommand request,
+        CancellationToken cancellationToken
+    )
     {
-        Booking? booking = await _bookingRepository.GetByIdAsync(request.BookingId, cancellationToken);
+        Booking? booking = await _bookingRepository.GetByIdAsync(
+            request.BookingId,
+            cancellationToken
+        );
 
         if (booking is null)
         {

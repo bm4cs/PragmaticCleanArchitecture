@@ -35,6 +35,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documentation", "documentat
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rest", "rest", "{4E614195-402C-40FA-8BF5-4C1C7A358A82}"
+	ProjectSection(SolutionItems) = preProject
+		development\rest\keycloak.http = development\rest\keycloak.http
+		development\rest\bookify.http = development\rest\bookify.http
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +108,7 @@ Global
 		{C6BD9A94-B84C-ADB6-B02C-4C6D0DE1ECE6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{1EB2F403-C08C-4AE9-96D3-E4E4F61730CA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{191AD0DB-9EA2-418E-BF1F-52E2472570F7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4E614195-402C-40FA-8BF5-4C1C7A358A82} = {A1B2C3D4-E5F6-7890-1234-56789ABCDEF0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C5AA3FB-263B-4107-822A-23BD314D3AA0}

@@ -32,7 +32,7 @@ services:
       - 5432:5432
     container_name: Bookify.Db
     volumes:
-      - ./.containers/database:/var/lib/postgresql/data
+      - bookify-db-data:/var/lib/postgresql/data
 
   bookify-idp:
     image: quay.io/keycloak/keycloak:latest
@@ -62,3 +62,6 @@ services:
   #   restart: always
   #   ports:
   #     - '6379:6379'
+
+volumes:
+  bookify-db-data:

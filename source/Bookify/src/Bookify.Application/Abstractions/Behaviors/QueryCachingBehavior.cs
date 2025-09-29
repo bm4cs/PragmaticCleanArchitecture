@@ -15,7 +15,8 @@ internal sealed class QueryCachingBehavior<TRequest, TResponse>
 
     public QueryCachingBehavior(
         ICacheService cacheService,
-        ILogger<QueryCachingBehavior<TRequest, TResponse>> logger)
+        ILogger<QueryCachingBehavior<TRequest, TResponse>> logger
+    )
     {
         _cacheService = cacheService;
         _logger = logger;
@@ -24,11 +25,13 @@ internal sealed class QueryCachingBehavior<TRequest, TResponse>
     public async Task<TResponse> Handle(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         TResponse? cachedResult = await _cacheService.GetAsync<TResponse>(
             request.CacheKey,
-            cancellationToken);
+            cancellationToken
+        );
 
         string name = typeof(TRequest).Name;
         if (cachedResult is not null)
@@ -44,7 +47,12 @@ internal sealed class QueryCachingBehavior<TRequest, TResponse>
 
         if (result.IsSuccess)
         {
-            await _cacheService.SetAsync(request.CacheKey, result, request.Expiration, cancellationToken);
+            await _cacheService.SetAsync(
+                request.CacheKey,
+                result,
+                request.Expiration,
+                cancellationToken
+            );
         }
 
         return result;

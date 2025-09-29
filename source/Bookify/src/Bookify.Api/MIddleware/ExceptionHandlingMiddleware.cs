@@ -10,7 +10,8 @@ internal sealed class ExceptionHandlingMiddleware
 
     public ExceptionHandlingMiddleware(
         RequestDelegate next,
-        ILogger<ExceptionHandlingMiddleware> logger)
+        ILogger<ExceptionHandlingMiddleware> logger
+    )
     {
         _next = next;
         _logger = logger;
@@ -26,7 +27,7 @@ internal sealed class ExceptionHandlingMiddleware
         {
             _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
 
-            ExceptionDetails exceptionDetails = GetExceptionDetails(exception);
+            var exceptionDetails = GetExceptionDetails(exception);
 
             var problemDetails = new ProblemDetails
             {
@@ -56,13 +57,15 @@ internal sealed class ExceptionHandlingMiddleware
                 "ValidationFailure",
                 "Validation error",
                 "One or more validation errors has occurred",
-                validationException.Errors),
+                validationException.Errors
+            ),
             _ => new ExceptionDetails(
                 StatusCodes.Status500InternalServerError,
                 "ServerError",
                 "Server error",
                 "An unexpected error has occurred",
-                null)
+                null
+            ),
         };
     }
 
@@ -71,5 +74,6 @@ internal sealed class ExceptionHandlingMiddleware
         string Type,
         string Title,
         string Detail,
-        IEnumerable<object>? Errors);
+        IEnumerable<object>? Errors
+    );
 }

@@ -15,7 +15,8 @@ internal sealed class GetLoggedInUserQueryHandler
 
     public GetLoggedInUserQueryHandler(
         ISqlConnectionFactory sqlConnectionFactory,
-        IUserContext userContext)
+        IUserContext userContext
+    )
     {
         _sqlConnectionFactory = sqlConnectionFactory;
         _userContext = userContext;
@@ -23,7 +24,8 @@ internal sealed class GetLoggedInUserQueryHandler
 
     public async Task<Result<UserResponse>> Handle(
         GetLoggedInUserQuery request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
 
@@ -39,10 +41,8 @@ internal sealed class GetLoggedInUserQueryHandler
 
         UserResponse user = await connection.QuerySingleAsync<UserResponse>(
             sql,
-            new
-            {
-                _userContext.IdentityId
-            });
+            new { _userContext.IdentityId }
+        );
 
         return user;
     }

@@ -15,7 +15,8 @@ internal sealed class PermissionAuthorizationHandler : AuthorizationHandler<Perm
 
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        PermissionRequirement requirement)
+        PermissionRequirement requirement
+    )
     {
         if (context.User.Identity is not { IsAuthenticated: true })
         {
@@ -24,11 +25,14 @@ internal sealed class PermissionAuthorizationHandler : AuthorizationHandler<Perm
 
         using IServiceScope scope = _serviceProvider.CreateScope();
 
-        AuthorizationService authorizationService = scope.ServiceProvider.GetRequiredService<AuthorizationService>();
+        AuthorizationService authorizationService =
+            scope.ServiceProvider.GetRequiredService<AuthorizationService>();
 
         string identityId = context.User.GetIdentityId();
 
-        HashSet<string> permissions = await authorizationService.GetPermissionsForUserAsync(identityId);
+        HashSet<string> permissions = await authorizationService.GetPermissionsForUserAsync(
+            identityId
+        );
 
         if (permissions.Contains(requirement.Permission))
         {

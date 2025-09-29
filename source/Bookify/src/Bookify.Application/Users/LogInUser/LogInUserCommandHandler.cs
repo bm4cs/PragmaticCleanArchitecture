@@ -5,7 +5,8 @@ using Bookify.Domain.Users;
 
 namespace Bookify.Application.Users.LogInUser;
 
-internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand, AccessTokenResponse>
+internal sealed class LogInUserCommandHandler
+    : ICommandHandler<LogInUserCommand, AccessTokenResponse>
 {
     private readonly IJwtService _jwtService;
 
@@ -16,12 +17,14 @@ internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand
 
     public async Task<Result<AccessTokenResponse>> Handle(
         LogInUserCommand request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         Result<string> result = await _jwtService.GetAccessTokenAsync(
             request.Email,
             request.Password,
-            cancellationToken);
+            cancellationToken
+        );
 
         if (result.IsFailure)
         {

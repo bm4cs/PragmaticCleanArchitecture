@@ -2,11 +2,13 @@ using Asp.Versioning;
 using Bookify.Application.Apartments.SearchApartments;
 using Bookify.Domain.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookify.Api.Controllers.Apartments;
 
+[Authorize]
 [ApiController]
 [ApiVersion(ApiVersions.V1)]
 [Route("api/v{version:apiVersion}/apartments")]

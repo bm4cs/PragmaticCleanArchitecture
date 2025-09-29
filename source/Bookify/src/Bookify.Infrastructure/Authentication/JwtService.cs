@@ -10,7 +10,8 @@ internal sealed class JwtService : IJwtService
 {
     private static readonly Error AuthenticationFailed = new(
         "Keycloak.AuthenticationFailed",
-        "Failed to acquire access token do to authentication failure");
+        "Failed to acquire access token do to authentication failure"
+    );
 
     private readonly HttpClient _httpClient;
     private readonly KeycloakOptions _keycloakOptions;
@@ -24,7 +25,8 @@ internal sealed class JwtService : IJwtService
     public async Task<Result<string>> GetAccessTokenAsync(
         string email,
         string password,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         try
         {
@@ -35,21 +37,23 @@ internal sealed class JwtService : IJwtService
                 new("scope", "openid email"),
                 new("grant_type", "password"),
                 new("username", email),
-                new("password", password)
+                new("password", password),
             };
 
-            using var authorizationRequestContent = new FormUrlEncodedContent(authRequestParameters);
+            using var authorizationRequestContent = new FormUrlEncodedContent(
+                authRequestParameters
+            );
 
             HttpResponseMessage response = await _httpClient.PostAsync(
                 "",
                 authorizationRequestContent,
-                cancellationToken);
+                cancellationToken
+            );
 
             response.EnsureSuccessStatusCode();
 
-            AuthorizationToken? authorizationToken = await response
-                .Content
-                .ReadFromJsonAsync<AuthorizationToken>(cancellationToken);
+            AuthorizationToken? authorizationToken =
+                await response.Content.ReadFromJsonAsync<AuthorizationToken>(cancellationToken);
 
             if (authorizationToken is null)
             {

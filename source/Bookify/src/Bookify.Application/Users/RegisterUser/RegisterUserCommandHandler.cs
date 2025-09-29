@@ -14,7 +14,8 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
     public RegisterUserCommandHandler(
         IAuthenticationService authenticationService,
         IUserRepository userRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork
+    )
     {
         _authenticationService = authenticationService;
         _userRepository = userRepository;
@@ -23,17 +24,20 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
 
     public async Task<Result<Guid>> Handle(
         RegisterUserCommand request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var user = User.Create(
             new FirstName(request.FirstName),
             new LastName(request.LastName),
-            new Email(request.Email));
+            new Email(request.Email)
+        );
 
         string identityId = await _authenticationService.RegisterAsync(
             user,
             request.Password,
-            cancellationToken);
+            cancellationToken
+        );
 
         user.SetIdentityId(identityId);
 

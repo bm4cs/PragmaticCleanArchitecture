@@ -1,4 +1,6 @@
-﻿GET http://localhost:18080/realms/bookify/.well-known/openid-configuration
+﻿###
+
+GET http://localhost:18080/realms/bookify/.well-known/openid-configuration
 Accept: application/json
 
 ###
@@ -7,5 +9,19 @@ POST http://localhost:18080/realms/bookify/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 client_id=bookify-auth-client&grant_type=password&client_secret=3E3yvXaYppoYBF3Ir6DgtEzADKKzSurZ&scope=openid&username=test@test.com&password=password
+
+###
+
+POST http://localhost:18080/realms/bookify/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=bookify-auth-client&grant_type=password&client_secret=3E3yvXaYppoYBF3Ir6DgtEzADKKzSurZ&scope=openid&username=bill@microsoft.com&password=12345
+
+###
+
+POST http://localhost:18080/realms/bookify/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=bookify-admin-client&grant_type=client_credentials&client_secret=UZDmbNxWmV4TlpaCRcju6pMRsyuV3er1&scope=openid
 
 ###

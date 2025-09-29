@@ -25,13 +25,10 @@ internal sealed class AuthorizationService
             return cachedRoles;
         }
 
-        UserRolesResponse roles = await _dbContext.Set<User>()
+        UserRolesResponse roles = await _dbContext
+            .Set<User>()
             .Where(u => u.IdentityId == identityId)
-            .Select(u => new UserRolesResponse
-            {
-                UserId = u.Id,
-                Roles = u.Roles.ToList()
-            })
+            .Select(u => new UserRolesResponse { UserId = u.Id, Roles = u.Roles.ToList() })
             .FirstAsync();
 
         await _cacheService.SetAsync(cacheKey, roles);
@@ -42,14 +39,17 @@ internal sealed class AuthorizationService
     public async Task<HashSet<string>> GetPermissionsForUserAsync(string identityId)
     {
         string cacheKey = $"auth:permissions-{identityId}";
-        HashSet<string>? cachedPermissions = await _cacheService.GetAsync<HashSet<string>>(cacheKey);
+        HashSet<string>? cachedPermissions = await _cacheService.GetAsync<HashSet<string>>(
+            cacheKey
+        );
 
         if (cachedPermissions is not null)
         {
             return cachedPermissions;
         }
 
-        ICollection<Permission> permissions = await _dbContext.Set<User>()
+        ICollection<Permission> permissions = await _dbContext
+            .Set<User>()
             .Where(u => u.IdentityId == identityId)
             .SelectMany(u => u.Roles.Select(r => r.Permissions))
             .FirstAsync();

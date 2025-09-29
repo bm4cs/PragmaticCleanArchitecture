@@ -1,7 +1,7 @@
-﻿using Bookify.Application.Abstractions.Authentication;
+﻿using System.Net.Http.Json;
+using Bookify.Application.Abstractions.Authentication;
 using Bookify.Domain.Users;
 using Bookify.Infrastructure.Authentication.Models;
-using System.Net.Http.Json;
 
 namespace Bookify.Infrastructure.Authentication;
 
@@ -19,7 +19,8 @@ internal sealed class AuthenticationService : IAuthenticationService
     public async Task<string> RegisterAsync(
         User user,
         string password,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var userRepresentationModel = UserRepresentationModel.FromUser(user);
 
@@ -29,20 +30,22 @@ internal sealed class AuthenticationService : IAuthenticationService
             {
                 Value = password,
                 Temporary = false,
-                Type = PasswordCredentialType
-            }
+                Type = PasswordCredentialType,
+            },
         };
 
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
             "users",
             userRepresentationModel,
-            cancellationToken);
+            cancellationToken
+        );
 
         return ExtractIdentityIdFromLocationHeader(response);
     }
 
     private static string ExtractIdentityIdFromLocationHeader(
-        HttpResponseMessage httpResponseMessage)
+        HttpResponseMessage httpResponseMessage
+    )
     {
         const string usersSegmentName = "users/";
 
@@ -55,10 +58,12 @@ internal sealed class AuthenticationService : IAuthenticationService
 
         int userSegmentValueIndex = locationHeader.IndexOf(
             usersSegmentName,
-            StringComparison.InvariantCultureIgnoreCase);
+            StringComparison.InvariantCultureIgnoreCase
+        );
 
         string userIdentityId = locationHeader.Substring(
-            userSegmentValueIndex + usersSegmentName.Length);
+            userSegmentValueIndex + usersSegmentName.Length
+        );
 
         return userIdentityId;
     }
