@@ -1,7 +1,7 @@
-﻿using Bookify.Application.Abstractions.Caching;
-using Microsoft.Extensions.Caching.Distributed;
-using System.Buffers;
+﻿using System.Buffers;
 using System.Text.Json;
+using Bookify.Application.Abstractions.Caching;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Bookify.Infrastructure.Caching;
 
@@ -25,7 +25,8 @@ internal sealed class CacheService : ICacheService
         string key,
         T value,
         TimeSpan? expiration = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         byte[] bytes = Serialize(value);
 
