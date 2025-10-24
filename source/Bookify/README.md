@@ -2,7 +2,8 @@
 
 ## Building 🛠️
 
-[Cake](https://cakebuild.net/) is used to deal with code base maintenance tasks. A Cake wrapper in the solution root called `build.ps1` will ensure that the `dotnet tool` for `cake` is setup.
+[Cake](https://cakebuild.net/) is used to deal with code base maintenance tasks. A Cake wrapper in the solution root
+called `build.ps1` will ensure that the `dotnet tool` for `cake` is setup.
 
 ```powershell
 dotnet cake --target=Build
@@ -16,7 +17,8 @@ dotnet cake --target=Run-Api --verbosity=diagnostic
 
 ### Dev-Certs-Setup
 
-Sets up self-signed development certificates as per the [docs](https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https).
+Sets up self-signed development certificates as per
+the [docs](https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https).
 
 ```powershell
 dotnet cake --target=Dev-Certs-Setup
@@ -27,7 +29,6 @@ This will create `%userprofile%\.aspnet\https\aspnetapp.pfx` and register it as 
 ## Running 🚀
 
 Cake targets have been setup for more manual chores.
-
 
 ### Docker Infrastructure
 
@@ -45,6 +46,13 @@ Setup the DB if needed, with EF migrations.
 dotnet cake --target=Add-Migration --name=InitialSetup --verbosity=diagnostic
 dotnet cake --target=Migrate --verbosity=diagnostic
 ```
+
+### Keycloak
+
+A keycloak container is preconfigured to:
+
+- Import realm from `development/keycloak/bookify-realm-export.json` on bootup
+- Expose the admin UI <http://localhost:18080/> login with `admin:admin`
 
 ### Debug Bookify.Api
 

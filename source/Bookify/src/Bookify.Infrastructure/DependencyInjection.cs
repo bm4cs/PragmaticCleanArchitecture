@@ -10,6 +10,8 @@ using Bookify.Domain.Bookings;
 using Bookify.Domain.Reviews;
 using Bookify.Domain.Users;
 using Bookify.Infrastructure.Authentication;
+using Bookify.Infrastructure.Authorization;
+using Bookify.Infrastructure.Caching;
 // using Bookify.Infrastructure.Authorization;
 // using Bookify.Infrastructure.Caching;
 using Bookify.Infrastructure.Clock;
@@ -18,7 +20,9 @@ using Bookify.Infrastructure.Email;
 // using Bookify.Infrastructure.Outbox;
 using Bookify.Infrastructure.Repositories;
 using Dapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 // using Microsoft.AspNetCore.Authentication;
 // using Microsoft.AspNetCore.Authentication.JwtBearer;
 // using Microsoft.AspNetCore.Authorization;
@@ -26,6 +30,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using AuthenticationOptions = Bookify.Infrastructure.Authentication.AuthenticationOptions;
 // using Quartz;
 // using AuthenticationOptions = Bookify.Infrastructure.Authentication.AuthenticationOptions;
 using AuthenticationService = Bookify.Infrastructure.Authentication.AuthenticationService;
@@ -45,9 +50,9 @@ public static class DependencyInjection
         services.AddTransient<IEmailService, EmailService>();
 
         AddPersistence(services, configuration);
-        // AddCaching(services, configuration);
+        AddCaching(services, configuration);
         AddAuthentication(services, configuration);
-        // AddAuthorization(services);
+        AddAuthorization(services);
         // AddHealthChecks(services, configuration);
         AddApiVersioning(services);
         // AddBackgroundJobs(services, configuration);
@@ -112,25 +117,62 @@ public static class DependencyInjection
         services.AddScoped<IUserContext, UserContext>();
     }
 
-    // private static void AddAuthorization(IServiceCollection services)
-    // {
-    //     services.AddScoped<AuthorizationService>();
-    //     services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
-    //     services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
-    //     services.AddTransient<
-    //         IAuthorizationPolicyProvider,
-    //         PermissionAuthorizationPolicyProvider
-    //     >();
-    // }
+    private static void AddAuthorization(IServiceCollection services)
+    {
+        services.AddScoped<AuthorizationService>();
+        services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddTransient<
+            IAuthorizationPolicyProvider,
+            PermissionAuthorizationPolicyProvider
+        >();
+    }
 
-    // private static void AddCaching(IServiceCollection services, IConfiguration configuration)
-    // {
-    //     string connectionString =
-    //         configuration.GetConnectionString("Cache")
-    //         ?? throw new ArgumentNullException(nameof(configuration));
-    //     services.AddStackExchangeRedisCache(options => options.Configuration = connectionString);
-    //     services.AddSingleton<ICacheService, CacheService>();
-    // }
+    private static void AddCaching(IServiceCollection services, IConfiguration configuration)
+    {
+        string connectionString =
+            configuration.GetConnectionString("Database")
+            ?? throw new ArgumentNullException(nameof(configuration));
+
+        services.AddDistributedPostgresCache(options =>
+        {
+            options.ConnectionString = connectionString;
+            options.SchemaName = configuration.GetValue<string>(
+                "PostgresCache:SchemaName",
+                "public"
+            );
+            options.TableName = configuration.GetValue<string>("PostgresCache:TableName", "cache");
+            options.CreateIfNotExists = configuration.GetValue<bool>(
+                "PostgresCache:CreateIfNotExists",
+                true
+            );
+            options.UseWAL = configuration.GetValue<bool>("PostgresCache:UseWAL", false);
+
+            var expirationInterval = configuration.GetValue<string>(
+                "PostgresCache:ExpiredItemsDeletionInterval"
+            );
+            if (
+                !string.IsNullOrEmpty(expirationInterval)
+                && TimeSpan.TryParse(expirationInterval, out var interval)
+            )
+            {
+                options.ExpiredItemsDeletionInterval = interval;
+            }
+
+            var slidingExpiration = configuration.GetValue<string>(
+                "PostgresCache:DefaultSlidingExpiration"
+            );
+            if (
+                !string.IsNullOrEmpty(slidingExpiration)
+                && TimeSpan.TryParse(slidingExpiration, out var sliding)
+            )
+            {
+                options.DefaultSlidingExpiration = sliding;
+            }
+        });
+
+        services.AddSingleton<ICacheService, CacheService>();
+    }
 
     // private static void AddHealthChecks(IServiceCollection services, IConfiguration configuration)
     // {

@@ -3,11 +3,14 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Bookify.Infrastructure.Authentication;
 
+/// <summary>
+/// Injects role claims sourced from custom roles managed by the app itself.
+/// </summary>
 internal static class ClaimsPrincipalExtensions
 {
     public static Guid GetUserId(this ClaimsPrincipal? principal)
     {
-        string? userId = principal?.FindFirstValue(JwtRegisteredClaimNames.Sub);
+        var userId = principal?.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
         return Guid.TryParse(userId, out Guid parsedUserId)
             ? parsedUserId

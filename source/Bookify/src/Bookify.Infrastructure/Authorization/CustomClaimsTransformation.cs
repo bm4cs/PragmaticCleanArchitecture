@@ -21,20 +21,19 @@ internal sealed class CustomClaimsTransformation : IClaimsTransformation
         if (
             principal.Identity is not { IsAuthenticated: true }
             || principal.HasClaim(claim => claim.Type == ClaimTypes.Role)
-                && principal.HasClaim(claim => claim.Type == JwtRegisteredClaimNames.Sub)
+                && principal.HasClaim(claim => claim.Type == JwtRegisteredClaimNames.Sub) // sub claim is transformed into nameidentifier claim
         )
         {
             return principal;
         }
 
-        using IServiceScope scope = _serviceProvider.CreateScope();
+        using var scope = _serviceProvider.CreateScope();
 
-        AuthorizationService authorizationService =
-            scope.ServiceProvider.GetRequiredService<AuthorizationService>();
+        var authorizationService = scope.ServiceProvider.GetRequiredService<AuthorizationService>();
 
-        string identityId = principal.GetIdentityId();
+        var identityId = principal.GetIdentityId();
 
-        UserRolesResponse userRoles = await authorizationService.GetRolesForUserAsync(identityId);
+        var userRoles = await authorizationService.GetRolesForUserAsync(identityId);
 
         var claimsIdentity = new ClaimsIdentity();
 
