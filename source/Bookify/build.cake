@@ -112,6 +112,16 @@ Task("Infra-Down")
         }
     });
 
+Task("InfraPurge")
+    .Description("Stops containerized infrastructure")
+    .Does(() =>
+    {
+        StartProcess("docker", new ProcessSettings
+        {
+            Arguments = "compose down -v"
+        });
+    });
+
 Task("Dev-Certs-Generate")
     .Description("Generates HTTPS development certificate")
     .Does(() =>

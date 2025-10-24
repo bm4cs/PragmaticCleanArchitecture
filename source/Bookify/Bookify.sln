@@ -18,8 +18,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{31D4E2D1-BC1A-4F8D-BA14-8C4C69C8D2CB}"
 	ProjectSection(SolutionItems) = preProject
 		build.cake = build.cake
-		build.ps1 = build.ps1
-		build.sh = build.sh
 		docker-compose.yml = docker-compose.yml
 		development\sql\handy.sql = development\sql\handy.sql
 	EndProjectSection

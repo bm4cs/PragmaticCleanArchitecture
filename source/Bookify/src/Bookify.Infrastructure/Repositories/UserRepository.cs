@@ -7,13 +7,13 @@ internal sealed class UserRepository : Repository<User>, IUserRepository
     public UserRepository(ApplicationDbContext dbContext)
         : base(dbContext) { }
 
-    // public override void Add(User user)
-    // {
-    //     foreach (Role role in user.Roles)
-    //     {
-    //         DbContext.Attach(role);
-    //     }
+    public override void Add(User user)
+    {
+        foreach (var role in user.Roles)
+        {
+            DbContext.Attach(role); // dont duplicate roles
+        }
 
-    //     DbContext.Add(user);
-    // }
+        DbContext.Add(user);
+    }
 }

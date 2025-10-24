@@ -22,13 +22,15 @@ public class UsersController : ControllerBase
         _sender = sender;
     }
 
-    [HttpGet("me")]
     // [HasPermission(Permissions.UsersRead)]
+
+    [HttpGet("me")]
+    [Authorize(Roles = Roles.Registered)]
     public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
     {
         var query = new GetLoggedInUserQuery();
 
-        Result<UserResponse> result = await _sender.Send(query, cancellationToken);
+        var result = await _sender.Send(query, cancellationToken);
 
         return Ok(result.Value);
     }
