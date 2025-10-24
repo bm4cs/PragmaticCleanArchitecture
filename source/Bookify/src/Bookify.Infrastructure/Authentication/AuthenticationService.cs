@@ -24,17 +24,17 @@ internal sealed class AuthenticationService : IAuthenticationService
     {
         var userRepresentationModel = UserRepresentationModel.FromUser(user);
 
-        userRepresentationModel.Credentials = new CredentialRepresentationModel[]
-        {
-            new()
+        userRepresentationModel.Credentials =
+        [
+            new CredentialRepresentationModel
             {
                 Value = password,
                 Temporary = false,
                 Type = PasswordCredentialType,
             },
-        };
+        ];
 
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
+        var response = await _httpClient.PostAsJsonAsync(
             "users",
             userRepresentationModel,
             cancellationToken
@@ -49,19 +49,19 @@ internal sealed class AuthenticationService : IAuthenticationService
     {
         const string usersSegmentName = "users/";
 
-        string? locationHeader = httpResponseMessage.Headers.Location?.PathAndQuery;
+        var locationHeader = httpResponseMessage.Headers.Location?.PathAndQuery;
 
         if (locationHeader is null)
         {
             throw new InvalidOperationException("Location header can't be null");
         }
 
-        int userSegmentValueIndex = locationHeader.IndexOf(
+        var userSegmentValueIndex = locationHeader.IndexOf(
             usersSegmentName,
             StringComparison.InvariantCultureIgnoreCase
         );
 
-        string userIdentityId = locationHeader.Substring(
+        var userIdentityId = locationHeader.Substring(
             userSegmentValueIndex + usersSegmentName.Length
         );
 

@@ -52,3 +52,8 @@ Interact with [Scalar](https://github.com/scalar/scalar) at <http://localhost:50
 .\build.ps1 --target=Add-Migration --name=InitialSetup --verbosity=diagnostic
 .\build.ps1 --target=Migrate --verbosity=diagnostic
 ```
+
+
+### Keycloak
+
+<>

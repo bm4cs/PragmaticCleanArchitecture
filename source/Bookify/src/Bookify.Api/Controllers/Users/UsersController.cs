@@ -47,7 +47,7 @@ public class UsersController : ControllerBase
             request.Password
         );
 
-        Result<Guid> result = await _sender.Send(command, cancellationToken);
+        var result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
         {
@@ -66,7 +66,7 @@ public class UsersController : ControllerBase
     {
         var command = new LogInUserCommand(request.Email, request.Password);
 
-        Result<AccessTokenResponse> result = await _sender.Send(command, cancellationToken);
+        var result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
         {
