@@ -1,4 +1,4 @@
-﻿### Secured route without token = failwhale
+﻿### Role-based secured route without token = fail
 
 GET http://localhost:5000/api/v1/apartments?startDate=2025-09-28&endDate=2025-09-30
 Accept: application/json
@@ -27,14 +27,20 @@ Content-Type: application/json
 
 > {% client.global.set("auth_token", response.body.accessToken); %}
 
-### Secured route with token = win
+### Role-based secured route with token = win
 
 GET http://localhost:5000/api/v1/apartments?startDate=2025-09-28&endDate=2025-09-30
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
-###
+### Policy-based secured route without token = fail
 
 GET http://localhost:5000/api/v1/users/me
 
+### Policy-based secured route with token = win
+
+GET http://localhost:5000/api/v1/users/me
+Authorization: Bearer {{auth_token}}
+
 ###
+
