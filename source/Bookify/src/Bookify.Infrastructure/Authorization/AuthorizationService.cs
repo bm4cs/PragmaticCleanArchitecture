@@ -17,15 +17,15 @@ internal sealed class AuthorizationService
 
     public async Task<UserRolesResponse> GetRolesForUserAsync(string identityId)
     {
-        string cacheKey = $"auth:roles-{identityId}";
-        UserRolesResponse? cachedRoles = await _cacheService.GetAsync<UserRolesResponse>(cacheKey);
+        var cacheKey = $"auth:roles-{identityId}";
+        var cachedRoles = await _cacheService.GetAsync<UserRolesResponse>(cacheKey);
 
         if (cachedRoles is not null)
         {
             return cachedRoles;
         }
 
-        UserRolesResponse roles = await _dbContext
+        var roles = await _dbContext
             .Set<User>()
             .Where(u => u.IdentityId == identityId)
             .Select(u => new UserRolesResponse { UserId = u.Id, Roles = u.Roles.ToList() })
@@ -38,17 +38,15 @@ internal sealed class AuthorizationService
 
     public async Task<HashSet<string>> GetPermissionsForUserAsync(string identityId)
     {
-        string cacheKey = $"auth:permissions-{identityId}";
-        HashSet<string>? cachedPermissions = await _cacheService.GetAsync<HashSet<string>>(
-            cacheKey
-        );
+        var cacheKey = $"auth:permissions-{identityId}";
+        var cachedPermissions = await _cacheService.GetAsync<HashSet<string>>(cacheKey);
 
         if (cachedPermissions is not null)
         {
             return cachedPermissions;
         }
 
-        ICollection<Permission> permissions = await _dbContext
+        var permissions = await _dbContext
             .Set<User>()
             .Where(u => u.IdentityId == identityId)
             .SelectMany(u => u.Roles.Select(r => r.Permissions))
