@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{31D4E2D1-BC1
 		build.cake = build.cake
 		docker-compose.yml = docker-compose.yml
 		development\sql\handy.sql = development\sql\handy.sql
+		docker-compose.debug.yml = docker-compose.debug.yml
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rest", "rest", "{4E614195-402C-40FA-8BF5-4C1C7A358A82}"

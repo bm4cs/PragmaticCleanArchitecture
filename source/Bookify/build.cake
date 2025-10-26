@@ -65,7 +65,7 @@ Task("Test")
         Information("All tests completed");
     });
 
-Task("Docker-Build")
+Task("DockerBuild")
     .Description("Builds Docker image for API")
     .Does(() =>
     {
@@ -76,7 +76,7 @@ Task("Docker-Build")
         Information("Docker image built: bookifyapi:latest");
     });
 
-Task("Infra-Up")
+Task("InfraUp")
     .Description("Starts containerized infrastructure (databases, etc.)")
     .Does(() =>
     {
@@ -94,7 +94,7 @@ Task("Infra-Up")
         }
     });
 
-Task("Infra-Down")
+Task("InfraDown")
     .Description("Stops containerized infrastructure")
     .Does(() =>
     {
@@ -112,7 +112,7 @@ Task("Infra-Down")
         }
     });
 
-Task("InfraPurge")
+Task("InfraKill")
     .Description("Stops containerized infrastructure")
     .Does(() =>
     {
@@ -122,7 +122,7 @@ Task("InfraPurge")
         });
     });
 
-Task("Dev-Certs-Generate")
+Task("DevCertsGenerate")
     .Description("Generates HTTPS development certificate")
     .Does(() =>
     {
@@ -136,7 +136,7 @@ Task("Dev-Certs-Generate")
         Information($"Generated dev certificate at: {certPath}");
     });
 
-Task("Dev-Certs-Trust")
+Task("DevCertsTrust")
     .Description("Trusts HTTPS development certificates")
     .Does(() =>
     {
@@ -147,12 +147,12 @@ Task("Dev-Certs-Trust")
         Information("Trusted HTTPS development certificates");
     });
 
-Task("Dev-Certs-Setup")
+Task("DevCertsSetup")
     .Description("Sets up HTTPS development certificates (generate + trust)")
-    .IsDependentOn("Dev-Certs-Generate")
-    .IsDependentOn("Dev-Certs-Trust");
+    .IsDependentOn("DevCertsGenerate")
+    .IsDependentOn("DevCertsTrust");
 
-Task("Add-Migration")
+Task("AddMigration")
     .Description("Creates a new Entity Framework migration")
     .Does(() =>
     {
@@ -180,7 +180,7 @@ Task("Migrate")
         Information("Database migrations applied");
     });
 
-Task("Run-Api")
+Task("RunApi")
     .Description("Runs the API project")
     .Does(() =>
     {
@@ -205,15 +205,15 @@ Task("Publish")
         Information("Published API to ./publish");
     });
 
-Task("Full-Build")
+Task("FullBuild")
     .Description("Complete build pipeline with tests")
     .IsDependentOn("Build")
     .IsDependentOn("Test");
 
-Task("Deploy-Local")
+Task("DeployLocal")
     .Description("Full local deployment with infrastructure")
-    .IsDependentOn("Infra-Up")
-    .IsDependentOn("Docker-Build")
+    .IsDependentOn("InfraUp")
+    .IsDependentOn("DockerBuild")
     .Does(() =>
     {
         Information("Local deployment complete");
@@ -223,7 +223,7 @@ Task("Deploy-Local")
 
 Task("Default")
     .Description("Default task - runs full build")
-    .IsDependentOn("Full-Build");
+    .IsDependentOn("FullBuild");
 
 Task("Help")
     .Description("Shows available tasks")
@@ -234,14 +234,14 @@ Task("Help")
         Information("  Restore         - Restores NuGet packages");
         Information("  Build           - Builds the solution");
         Information("  Test            - Runs all tests");
-        Information("  Full-Build      - Build + Test");
-        Information("  Docker-Build    - Builds API Docker image");
-        Information("  Infra-Up        - Starts infrastructure containers");
-        Information("  Infra-Down      - Stops infrastructure containers");
-        Information("  Add-Migration   - Creates new EF migration (--name=MigrationName)");
+        Information("  FullBuild      - Build + Test");
+        Information("  DockerBuild    - Builds API Docker image");
+        Information("  InfraUp        - Starts infrastructure containers");
+        Information("  InfraDown      - Stops infrastructure containers");
+        Information("  AddMigration   - Creates new EF migration (--name=MigrationName)");
         Information("  Migrate         - Runs EF database migrations");
         Information("  Publish         - Publishes API project");
-        Information("  Deploy-Local    - Full local deployment");
+        Information("  DeployLocal    - Full local deployment");
         Information("  Help            - Shows this help");
         Information("");
         Information("Usage: dotnet cake [--target=TaskName] [--configuration=Debug|Release]");

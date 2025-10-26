@@ -1,24 +1,24 @@
 services:
-#  bookify-api:
-#    environment:
-#      - ASPNETCORE_ENVIRONMENT=Development
-#      - ASPNETCORE_HTTP_PORTS=5000
-#      - ASPNETCORE_HTTPS_PORTS=5001
-#      - ASPNETCORE_Kestrel__Certificates__Default__Password=changeme
-#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-#    ports:
-#      - 5000:5000
-#      - 5001:5001
-#    volumes:
-#      - ~/.aspnet/https:/https:ro
-#      # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-#    image: ${DOCKER_REGISTRY-}bookifyapi
-#    container_name: Bookify.Api
-#    build:
-#      context: .
-#      dockerfile: src/Bookify.Api/Dockerfile
-#    depends_on:
-#      - bookify-db
+  #  bookify-api:
+  #    environment:
+  #      - ASPNETCORE_ENVIRONMENT=Development
+  #      - ASPNETCORE_HTTP_PORTS=5000
+  #      - ASPNETCORE_HTTPS_PORTS=5001
+  #      - ASPNETCORE_Kestrel__Certificates__Default__Password=changeme
+  #      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+  #    ports:
+  #      - 5000:5000
+  #      - 5001:5001
+  #    volumes:
+  #      - ~/.aspnet/https:/https:ro
+  #      # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  #    image: ${DOCKER_REGISTRY-}bookifyapi
+  #    container_name: Bookify.Api
+  #    build:
+  #      context: .
+  #      dockerfile: src/Bookify.Api/Dockerfile
+  #    depends_on:
+  #      - bookify-db
   
   # https://aka.ms/HTTPSinContainer for https certs
 
@@ -29,7 +29,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     image: postgres:latest
     ports:
-      - 5432:5432
+      - "5432:5432"
     container_name: Bookify.Db
     volumes:
       - bookify-db-data:/var/lib/postgresql/data
@@ -42,26 +42,28 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
     volumes:
-      - ./.containers/identity:/opt/keycloak/data
-      - ./.files/bookify-realm-export.json:/opt/keycloak/data/import/realm.json
+      - bookify-idp-data:/opt/keycloak/data
+      - ./development/keycloak/bookify-realm-export.json:/opt/keycloak/data/import/realm.json
     ports:
-      - 18080:8080
-
-  # bookify-seq:
-  #   image: datalust/seq:latest
-  #   container_name: Bookify.Seq
-  #   environment:
-  #     - ACCEPT_EULA=Y
-  #   ports:
-  #     - 5341:5341
-  #     - 8081:80
-
-  # bookify-redis:
-  #   image: redis:latest
-  #   container_name: Bookify.Redis
-  #   restart: always
-  #   ports:
-  #     - '6379:6379'
+      - "18080:8080"
+  
+  bookify-seq:
+    image: datalust/seq:latest
+    container_name: Bookify.Seq
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=admin
+    ports:
+      - "5341:5341"  # api
+      - "8081:80"  # dashboard
+    
+    # bookify-redis:
+    #   image: redis:latest
+    #   container_name: Bookify.Redis
+    #   restart: always
+    #   ports:
+    #     - '6379:6379'
 
 volumes:
   bookify-db-data:
+  bookify-idp-data:

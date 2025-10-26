@@ -50,8 +50,8 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "apartmentId": "7dc8ff8c-6cfa-4c72-84a7-f4cf5c735823",
-  "userId": "6a269fd0-75eb-4494-9674-6faad07de200",
+  "apartmentId": "fbd6617d-9815-40ed-856c-9f9a98b72c69zzz",
+  "userId": "7396d7d0-1efa-4ea9-b2cf-0b5991aea6d6",
   "startDate": "2025-10-26",
   "endDaTe": "2025-10-30"
 }
