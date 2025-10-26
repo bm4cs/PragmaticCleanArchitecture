@@ -50,15 +50,19 @@ Authorization: Bearer {{auth_token}}
 Content-Type: application/json
 
 {
-  "apartmentId": "fbd6617d-9815-40ed-856c-9f9a98b72c69zzz",
+  "apartmentId": "fbd6617d-9815-40ed-856c-9f9a98b72c69",
   "userId": "7396d7d0-1efa-4ea9-b2cf-0b5991aea6d6",
-  "startDate": "2025-10-26",
-  "endDaTe": "2025-10-30"
+  "startDate": "2026-01-17",
+  "endDate": "2026-01-28"
 }
 
 ### Resource-based authz example for bookings
 
 GET http://localhost:5000/api/v1/bookings/4c5077ed-08e1-4752-aa7d-b10180d9dcaa
 Authorization: Bearer {{auth_token}}
+
+### Health checks
+
+GET http://localhost:5000/health
 
 ###

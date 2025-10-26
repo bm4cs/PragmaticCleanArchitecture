@@ -38,11 +38,9 @@ public class PricingService
 
         totalPrice += amenitiesUpcharge;
 
-        return new PricingDetails(
-            priceForPeriod,
-            apartment.CleaningFee,
-            amenitiesUpcharge,
-            totalPrice
-        );
+        // Clone to prevent EF tracking the same money instance
+        var cleaningFee = new Money(apartment.CleaningFee.Amount, apartment.CleaningFee.Currency);
+
+        return new PricingDetails(priceForPeriod, cleaningFee, amenitiesUpcharge, totalPrice);
     }
 }

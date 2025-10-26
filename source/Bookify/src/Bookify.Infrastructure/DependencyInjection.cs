@@ -17,6 +17,7 @@ using Bookify.Infrastructure.Caching;
 using Bookify.Infrastructure.Clock;
 using Bookify.Infrastructure.Data;
 using Bookify.Infrastructure.Email;
+using Bookify.Infrastructure.Outbox;
 // using Bookify.Infrastructure.Outbox;
 using Bookify.Infrastructure.Repositories;
 using Dapper;
@@ -30,6 +31,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Quartz;
 using AuthenticationOptions = Bookify.Infrastructure.Authentication.AuthenticationOptions;
 // using Quartz;
 // using AuthenticationOptions = Bookify.Infrastructure.Authentication.AuthenticationOptions;
@@ -46,16 +48,16 @@ public static class DependencyInjection
     )
     {
         services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-
         services.AddTransient<IEmailService, EmailService>();
 
         AddPersistence(services, configuration);
         AddCaching(services, configuration);
         AddAuthentication(services, configuration);
         AddAuthorization(services);
-        // AddHealthChecks(services, configuration);
+        AddHealthChecks(services, configuration);
         AddApiVersioning(services);
-        // AddBackgroundJobs(services, configuration);
+        AddBackgroundJobs(services, configuration);
+
         return services;
     }
 
@@ -70,14 +72,10 @@ public static class DependencyInjection
         );
 
         services.AddScoped<IUserRepository, UserRepository>();
-
         services.AddScoped<IApartmentRepository, ApartmentRepository>();
-
         services.AddScoped<IBookingRepository, BookingRepository>();
-
         services.AddScoped<IReviewRepository, ReviewRepository>();
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
-
         services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(
             connectionString
         ));
@@ -174,14 +172,13 @@ public static class DependencyInjection
         services.AddSingleton<ICacheService, CacheService>();
     }
 
-    // private static void AddHealthChecks(IServiceCollection services, IConfiguration configuration)
-    // {
-    //     services
-    //         .AddHealthChecks()
-    //         .AddNpgSql(configuration.GetConnectionString("Database")!)
-    //         .AddRedis(configuration.GetConnectionString("Cache")!)
-    //         .AddUrlGroup(new Uri(configuration["KeyCloak:BaseUrl"]!), HttpMethod.Get, "keycloak");
-    // }
+    private static void AddHealthChecks(IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddHealthChecks()
+            .AddNpgSql(configuration.GetConnectionString("Database")!, name: "postgres")
+            .AddUrlGroup(new Uri(configuration["KeyCloak:BaseUrl"]!), HttpMethod.Get, "keycloak");
+    }
 
     private static void AddApiVersioning(IServiceCollection services)
     {
@@ -200,11 +197,11 @@ public static class DependencyInjection
             });
     }
 
-    // private static void AddBackgroundJobs(IServiceCollection services, IConfiguration configuration)
-    // {
-    //     services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
-    //     services.AddQuartz();
-    //     services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
-    //     services.ConfigureOptions<ProcessOutboxMessagesJobSetup>();
-    // }
+    private static void AddBackgroundJobs(IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
+        services.AddQuartz();
+        services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+        services.ConfigureOptions<ProcessOutboxMessagesJobSetup>();
+    }
 }

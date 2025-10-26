@@ -22,3 +22,9 @@ FROM permissions;
 
 SELECT *
 FROM cache;
+
+SELECT *
+FROM outbox_messages;
+
+
+SELECT 1;
