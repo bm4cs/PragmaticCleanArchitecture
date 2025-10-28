@@ -14,7 +14,7 @@ public class ApplicationDesignTimeDbContextFactory
 
         // Use a connection string for design-time
         var connectionString =
-            "Host=localhost;Port=5432;Database=bookify;Username=postgres;Password=postgres;Include Error Detail=true";
+            "Host=172.21.32.110;Port=5432;Database=bookify;Username=postgres;Password=postgres;Include Error Detail=true";
         optionsBuilder.UseNpgsql(connectionString);
         optionsBuilder.UseSnakeCaseNamingConvention();
 

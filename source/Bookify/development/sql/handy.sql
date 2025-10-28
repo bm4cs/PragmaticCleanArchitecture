@@ -1,6 +1,6 @@
 ﻿
-select *
-from "__EFMigrationsHistory";
+SELECT *
+FROM "__EFMigrationsHistory";
 
 SELECT *
 FROM apartments;
@@ -25,6 +25,3 @@ FROM cache;
 
 SELECT *
 FROM outbox_messages;
-
-
-SELECT 1;
