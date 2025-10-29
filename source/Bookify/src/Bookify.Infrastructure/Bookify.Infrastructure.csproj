@@ -25,4 +25,7 @@
     <Folder Include="Data\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Bookify.Application.IntegrationTests" />
+  </ItemGroup>
 </Project>
