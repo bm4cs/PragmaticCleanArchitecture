@@ -17,4 +17,7 @@
   <ItemGroup>
     <Folder Include="Abstractions\Email\" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Bookify.Application.UnitTests" />
+  </ItemGroup>
 </Project>
