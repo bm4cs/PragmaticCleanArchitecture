@@ -31,7 +31,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi(); // http://localhost:5000/openapi/v1.json
     app.MapScalarApiReference(); // http://localhost:5000/scalar/v1
     app.ApplyMigrations();
-    // app.SeedData(); // faker generates sample data
+    app.SeedData(); // faker generated seed data
 }
 
 // app.UseHttpsRedirection();
